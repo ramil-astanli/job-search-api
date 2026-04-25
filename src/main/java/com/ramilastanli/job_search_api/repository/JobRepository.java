@@ -20,7 +20,7 @@ public interface JobRepository extends JpaRepository<Job, Long>, JpaSpecificatio
     @Query(value = "SELECT * FROM jobs " +
             "WHERE to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')) " +
             "@@ plainto_tsquery('english', :keyword) " +
-            "ORDER BY ts_rank(to_tsvector('english', title), plainto_tsquery('english', :keyword)) DESC",
+            "ORDER BY ts_rank(to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')), plainto_tsquery('english', :keyword)) DESC",
             countQuery = "SELECT count(*) FROM jobs " +
                     "WHERE to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')) " +
                     "@@ plainto_tsquery('english', :keyword)",
